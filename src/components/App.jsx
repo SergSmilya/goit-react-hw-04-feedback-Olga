@@ -8,17 +8,26 @@ export function App() {
   const [bad, setBad] = useState(0);
 
   const feedbackBtn = {
-    good,
-    neutral,
-    bad,
+    good: good,
+    neutral: neutral,
+    bad: bad,
   };
 
   function onButtonClick(e) {
-    const key = [e.target.outerText];
-    if (key === useState[0]) {
-      setGood(prev => prev + 1);
-      setNeutral(prev => prev + 1);
-      setBad(prev => prev + 1);
+    const key = e.target.outerText;
+    switch (key) {
+      case 'good':
+        setGood(prev => prev + 1);
+        break;
+      case 'neutral':
+        setNeutral(prev => prev + 1);
+        break;
+      case 'bad':
+        setBad(prev => prev + 1);
+        break;
+
+      default:
+        return;
     }
   }
 
