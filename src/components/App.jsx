@@ -1,25 +1,34 @@
 import Feedback from './Feedback/Feedback';
-import React, { Component } from 'react';
+import React from 'react';
 import { useState } from 'react';
 
 export function App() {
-  const [good, setgood] = useState(0);
-  const [neutral, setfneutral] = useState(0);
-  const [bad, setbad] = useState(0);
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const feedbackBtn = {
+    good,
+    neutral,
+    bad,
+  };
 
   function onButtonClick(e) {
     const key = [e.target.outerText];
-    this.setState(prevState => ({ [key]: prevState[key] + 1 }));
+    if (key === useState[0]) {
+      setGood(prev => prev + 1);
+      setNeutral(prev => prev + 1);
+      setBad(prev => prev + 1);
+    }
   }
 
   function countTotalFeedback() {
-    return Object.values(this.state).reduce((total, value) => {
-      return (total += value);
-    }, 0);
+    const total = good + neutral + bad;
+    return total;
   }
 
   function countPositiveFeedbackPercentage() {
-    return Math.round((this.state.good / this.countTotalFeedback()) * 100);
+    return Math.round((good / countTotalFeedback()) * 100);
   }
 
   return (
@@ -34,10 +43,10 @@ export function App() {
       }}
     >
       <Feedback
-        state={this.state}
-        onButtonClick={this.onButtonClick}
-        countTotalFeedback={this.countTotalFeedback}
-        countPositiveFeedbackPercentage={this.countPositiveFeedbackPercentage}
+        state={feedbackBtn}
+        onButtonClick={onButtonClick}
+        countTotalFeedback={countTotalFeedback}
+        countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
       />
     </div>
   );
